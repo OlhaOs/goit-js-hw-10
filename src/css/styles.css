@@ -1,5 +1,7 @@
 * {
   box-sizing: border-box;
+  margin-bottom: 0;
+  margin-top: 0;
 }
 
 body {
@@ -11,10 +13,35 @@ body {
   color: #212121;
   line-height: 1.5;
 }
+ul,
+li {
+  list-style: none;
+}
+img {
+  width: 25px;
+  height: 25px;
+}
 
 #search-box {
-  font: inherit;
+  display: block;
+  max-width: 100%;
+
+  font-size: inherit;
+
   padding: 8px;
-  max-width: 320px;
-  margin-bottom: 16px;
+  margin-top: 50px;
+  margin-left: 50px;
+
+  border-radius: 4px;
+  border: 2px solid darkgreen;
+  background-color: rgb(142, 185, 144);
+}
+
+.flag {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+.country-info {
+  margin-left: 50px;
 }
