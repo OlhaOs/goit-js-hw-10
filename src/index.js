@@ -1,6 +1,8 @@
 import './css/styles.css';
 import debounce from 'lodash.debounce';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
+import {fetchCountries} from './js/fetchCountries';
+
 
 Notify.init({
   position: 'center-top',
@@ -19,9 +21,10 @@ refs.inputEl.addEventListener('input', debounce(onInputClick, DEBOUNCE_DELAY));
 
 function onInputClick(e) {
   let countrySearch = e.target.value;
-  fetch(`https://restcountries.com/v3.1/name/${countrySearch.trim()}`)
-    .then(response => response.json())
+
+  fetchCountries(countrySearch)
     .then(data => {
+      console.log(data)
       checkData(data);
     })
     .catch(() => Notify.failure('Oops, there is no country with that name'));
@@ -58,12 +61,8 @@ function createCountryFullMarkUp(item) {
       </li> `;
 }
 
-function generateFullCountryInfo(array) {
-  return array.reduce((acc, item) => acc + createCountryFullMarkUp(item), '');
-}
-
-function generateShortList(array) {
-  return array.reduce((acc, item) => acc + createCountryList(item), '');
+function generateMarkUp(array, markUp) {
+  return array.reduce((acc, item) => acc + markUp(item), '');
 }
 
 function clearList() {
@@ -73,12 +72,12 @@ function clearList() {
 
 function insertFullInfo(array) {
   clearList();
-  const result = generateFullCountryInfo(array);
+  const result = generateMarkUp(array, createCountryFullMarkUp);
   refs.countryInfoEl.insertAdjacentHTML('beforeend', result);
 }
 
 function insertShortInfo(array) {
   clearList();
-  const result = generateShortList(array);
+  const result = generateMarkUp(array, createCountryList);
   refs.listEL.insertAdjacentHTML('beforeend', result);
 }
